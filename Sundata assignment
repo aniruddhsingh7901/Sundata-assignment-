@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Management</title>
+</head>
+<body>
+
+  <script>
+    // Your JavaScript code goes here
+
+    let token = "dGVzdEBzdW5iYXNIZGFOYS5jb206VGVzdEAxMjM=";
+
+    function authenticate() {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        "login_id": "test@sunbasedata.com",
+        "password": "Test@123"
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("https://qa2.sunbasedata.com/sunbase/portal/api/assignment_auth.jsp", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          token = result;
+          console.log(result);
+        })
+        .catch(error => console.log('error', error));
+    }
+
+    function createCustomer() {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + token);
+      myHeaders.append("Content-Type", "application/json");
+      
+      var raw = JSON.stringify({
+        "first_name": "Jane",
+        "last_name": "Doe",
+        "street": "Elvnu Street",
+        "address": "H no 2",
+        "city": "Delhi",
+        "state": "Delhi",
+        "email": "sam@gmail.com",
+        "phone": "12345"
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=create", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    }
+
+    function getCustomerList() {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + token);
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "JSESSIONID=948AEF2F3B8707B385AFE48ECOBE11A4");
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      fetch("https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=get_customer_list", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    }
+
+    function updateCustomer() {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + token);
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "JSESSIONID=6F61BD7320AD6E14486D35523F37E55B");
+
+      var raw = JSON.stringify({
+        "first_name": "Jane",
+        "last_name": "Doe1f",
+        "street": "Elvnu Street",
+        "address": "Hino 2",
+        "city": "Delhi",
+        "state": "Delhi",
+        "email": "sam@gmail.com",
+        "phone": "12345678"
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=update&uuid=test5554615bd0fa46fa8cce02c190a93347", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    }
+
+    function deleteCustomer() {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + token);
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "JSESSIONID=FB18F84DAD098326EB38586BEFDA4293");
+
+      var raw = JSON.stringify({
+        "cmd": "delete",
+        "uuid": "test6d278443e24d4e9c9aa682650f3d2df1"
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("https://qa2.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=delete&uuid=test6d278443e24d4e9c9aa682650f3d2df", requestOptions)
+        .then(result => console.log(result))
+        .then(response => response.text())
+        .catch(error => console.log('error', error));
+    }
+
+    // Call getCustomerList on page load
+    getCustomerList();
+  </script>
+
+</body>
+</html>
